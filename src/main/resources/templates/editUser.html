@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>编辑用户</title>
+    <script th:src="@{/js/jquery.min.js}"></script>
+</head>
+<body>
+
+    <div>
+        <input id="userId" type="hidden" th:value="${user.id}"/>
+        姓名:<input id="name" type="text" th:value="${user.name}"/>
+        <br/>
+        年龄:<input id="age" type="text" th:value="${user.age}"/>
+        <input id="sum" type="button" value="提交"/>
+    </div>
+</body>
+<script>
+    $("#sum").click(function (){
+        var id = $("#userId").val();
+        var name = $("#name").val();
+        var age = $("#age").val();
+        if (name == ''){
+            alert("姓名不能为空！");
+            return
+        }
+        if (age == ''){
+            alert("年龄不能为空！");
+            return
+        }
+        $.ajax({
+            type:"post",
+            url: "http://localhost:8088/user/edit",
+            data:{id:id,name:name,age:age},
+            success:function (data) {
+                if(data > 0){
+                    alert("修改成功");
+                    window.location.href = "http://localhost:8088/user/findAll";
+                }
+            }
+        })
+    })
+
+</script>
+</html>

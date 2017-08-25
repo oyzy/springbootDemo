@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>输入</title>
+    <script th:src="@{/js/jquery.min.js}"></script>
+</head>
+<body>
+    <table>
+        <tr><a th:href="@{/user/toAdd}">添加</a></tr>
+        <tr>
+            <th>ID</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>操作</th>
+        </tr>
+        <!--/*@thymesVar id="users" type="java.util.List"*/-->
+        <tr th:each="user : ${users}">
+            <th th:text="${user.id}">ID</th>
+            <th th:text="${user.name}">姓名</th>
+            <th th:text="${user.age}">年龄</th>
+            <th>
+                <a th:href="@{/user/toEdit(id=${user.id})}">编辑</a>
+                <a href="javascript:;" th:onclick="'javascript:remove('+${user.id}+');'">删除</a>
+            </th>
+        </tr>
+    </table>
+
+</body>
+<script>
+    function remove(id){
+        $.ajax({
+            type:"post",
+            url: "http://localhost:8088/user/delete",
+            data:{id:id},
+            success:function () {
+                alert("删除成功！");
+                location.reload(true);
+            }
+        })
+    }
+</script>
+</html>

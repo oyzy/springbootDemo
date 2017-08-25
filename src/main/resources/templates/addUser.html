@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>输入</title>
+    <script th:src="@{/js/jquery.min.js}"></script>
+</head>
+<body>
+
+    <div>
+        姓名:<input id="name" type="text"/>
+        <br/>
+        年龄:<input id="age" type="text"/>
+        <input id="sum" type="button" value="提交"/>
+    </div>
+</body>
+<script>
+    $("#sum").click(function (){
+        var name = $("#name").val();
+        var age = $("#age").val();
+        if (name == ''){
+            alert("姓名不能为空！");
+            return
+        }
+        if (age == ''){
+            alert("年龄不能为空！");
+            return
+        }
+        $.ajax({
+            type:"post",
+            url: "http://localhost:8088/user/add",
+            data:{name:name,age:age},
+            success:function (data) {
+                if(data > 0){
+                    alert("添加成功");
+                   window.location.href = "http://localhost:8088/user/findAll";
+                }
+            }
+        })
+    })
+
+</script>
+</html>
